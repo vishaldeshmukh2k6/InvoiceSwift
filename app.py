@@ -7,15 +7,19 @@ import math
 import io
 import os
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
 
 # --- WooCommerce API Constants ---
-WOO_URL = "https://woocommerce-507187-1869367.cloudwaysapps.com"
+WOO_URL = os.getenv("WOO_URL")
 WOO_API_URL = f"{WOO_URL}/wp-json/wc/v3"
-CONSUMER_KEY = "ck_785fefd21aa061e99511b6fe01a69671aa289100"
-CONSUMER_SECRET = "cs_35e700a4c2f1b325470f5f64d676608a3e892c6d"
+CONSUMER_KEY = os.getenv("CONSUMER_KEY")
+CONSUMER_SECRET = os.getenv("CONSUMER_SECRET")
 
 # --- Helper Functions ---
 
