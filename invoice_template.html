@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tax Invoice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    font-size: 10px;
+}
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #000;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #333;
+}
+.header-left {
+    display: flex;
+    align-items: center;
+}
+.logo {
+    width: 100px;
+    height: auto;
+    margin-right: 10px;
+}
+.company-info {
+    line-height: 1.2;
+}
+.company-info h1 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 2px;
+}
+.header-right {
+    text-align: right;
+}
+.header-right h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 5px;
+}
+.info-table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+.info-table td {
+    padding: 2px;
+    vertical-align: top;
+    font-size: 10px;
+}
+.info-table .label {
+    width: 15%;
+    font-weight: 700;
+}
+.info-table .value {
+    width: 35%;
+}
+.bill-to-section h2, .ship-to-section h2 {
+    font-size: 12px;
+    font-weight: 700;
+    margin: 0 0 5px;
+    border-bottom: 1px solid #000;
+}
+.bill-to-section p, .ship-to-section p {
+    margin: 1px 0;
+}
+.address-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.address-block {
+    width: 48%;
+    padding: 5px;
+    border: 1px solid #000;
+}
+table.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.items-table th, .items-table td {
+    padding: 5px;
+    font-size: 10px;
+    text-align: left;
+    border: 1px solid #000;
+}
+.items-table th {
+    background-color: #f2f2f2;
+    font-weight: 700;
+    text-align: center;
+}
+.items-table td {
+    vertical-align: top;
+}
+.totals-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.amount-in-words {
+    font-size: 10px;
+    font-weight: 700;
+    width: 60%;
+    padding-left: 5px;
+}
+.totals-table {
+    width: 40%;
+    border-collapse: collapse;
+}
+.totals-table td {
+    padding: 3px;
+    border: 1px solid #000;
+    text-align: right;
+}
+.totals-table tr:last-child td {
+    font-weight: 700;
+}
+.bank-details-section {
+    margin-top: 20px;
+    border: 1px solid #000;
+    padding: 5px;
+}
+.bank-details-section h2 {
+    font-size: 12px;
+    font-weight: 700;
+    margin: 0 0 5px;
+}
+.signature-section {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    text-align: center;
+}
+.signature-box {
+    border-top: 1px solid #000;
+    width: 150px;
+    text-align: center;
+    padding-top: 5px;
+}
+.final-notes {
+    margin-top: 10px;
+    font-size: 10px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<div class="header-left">
+<img src="https://i0.wp.com/swadesiway.com/wp-content/uploads/2024/07/Swadesi-Way_320px.png?fit=320%2C157&ssl=1" alt="Company Logo" class="logo">
+<div class="company-info">
+<h1>{{ company_name }}</h1>
+<p>{{ company_address | safe }}</p>
+<p>GSTIN: {{ company_gstin }}</p>
+</div>
+</div>
+<div class="header-right">
+<h1>TAX INVOICE</h1>
+<p>Invoice No: {{ invoice_number }}</p>
+<p>Invoice Date: {{ invoice_date }}</p>
+</div>
+</div>
+
+    <table class="info-table">
+        <tr>
+            <td class="label">Place Of Supply</td>
+            <td class="value">: {{ place_of_supply }}</td>
+            <td class="label">Terms</td>
+            <td class="value">: Due on Receipt</td>
+        </tr>
+        <tr>
+            <td class="label">Due Date</td>
+            <td class="value">: {{ due_date }}</td>
+            <td class="label">GSTIN</td>
+            <td class="value">: {{ company_gstin }}</td>
+        </tr>
+    </table>
+
+    <div class="address-container">
+        <div class="address-block">
+            <h2>Bill To</h2>
+            <p><strong>{{ client_name }}</strong></p>
+            <p>{{ client_address | safe }}</p>
+            <p>GSTIN: {{ client_gstin }}</p>
+        </div>
+        <div class="address-block">
+            <h2>Ship To</h2>
+            <p><strong>{{ ship_to_name }}</strong></p>
+            <p>{{ ship_to_address | safe }}</p>
+            <p>GSTIN: {{ ship_to_gstin }}</p>
+        </div>
+    </div>
+
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th style="width: 5%;">S.No.</th>
+                <th style="width: 25%;">Item & Description</th>
+                <th style="width: 10%;">HSN/SAC</th>
+                <th style="width: 5%;">Qty</th>
+                <th style="width: 10%;">Rate</th>
+                <th style="width: 10%;">CGST Amt</th>
+                <th style="width: 10%;">SGST Amt</th>
+                <th style="width: 15%;">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td style="text-align: center;">{{ loop.index }}</td>
+                <td>{{ item.description }}</td>
+                <td style="text-align: center;">{{ item.hsn_sac }}</td>
+                <td style="text-align: center;">{{ item.quantity }}</td>
+                <td style="text-align: right;">₹{{ "%.2f"|format(item.rate) }}</td>
+                <td style="text-align: right;">₹{{ "%.2f"|format(item.cgst_amount) }}</td>
+                <td style="text-align: right;">₹{{ "%.2f"|format(item.sgst_amount) }}</td>
+                <td style="text-align: right;">₹{{ "%.2f"|format(item.amount) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="totals-section">
+        <div class="amount-in-words">
+            <p><strong>Total In Words:</strong> {{ total_in_words }}</p>
+            <p>Notes</p>
+            <p>Thanks for your business.</p>
+        </div>
+        <table class="totals-table">
+            <tr>
+                <td>Sub Total</td>
+                <td>₹{{ "%.2f"|format(subtotal) }}</td>
+            </tr>
+            <tr>
+                <td>CGST</td>
+                <td>₹{{ "%.2f"|format(total_cgst) }}</td>
+            </tr>
+            <tr>
+                <td>SGST</td>
+                <td>₹{{ "%.2f"|format(total_sgst) }}</td>
+            </tr>
+            <tr>
+                <td>Rounding</td>
+                <td>₹{{ "%.2f"|format(rounding) }}</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td>₹{{ "%.2f"|format(total_amount) }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="bank-details-section">
+        <h2>Bank Details</h2>
+        <p>Bank Name: {{ bank_name }}</p>
+        <p>Account No: {{ account_number }}</p>
+        <p>IFSC Code: {{ ifsc_code }}</p>
+    </div>
+
+    <div class="signature-section">
+        <p>Authorized Signature</p>
+        <div class="signature-box"></div>
+        <p><strong>{{ company_name }}</strong></p>
+    </div>
+</div>
+
+</body>
+</html>
